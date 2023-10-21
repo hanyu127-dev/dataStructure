@@ -18,7 +18,7 @@ public class SingleLinkedListDemo {
         linkedList.addByOrder(hero2);
         linkedList.addByOrder(hero3);
         linkedList.addByOrder(hero4);
-
+/*
         // 修改之前显示节点
         linkedList.list();
 
@@ -42,51 +42,84 @@ public class SingleLinkedListDemo {
         HeroNode lastIndexNode = findLastIndexNode(head, 3);
         System.out.println("res="+lastIndexNode);
 
+*/
+        System.out.println("原来链表的情况");
+        linkedList.list();
 
+        System.out.println("链表反转");
+        reverseLinkedList(linkedList.getHead());
+        linkedList.list();
     }
 
     // 方法：获取到单链表的节点的个数（头节点不统计）
+
     /**
-     *
      * @param head 链表的头节点
      * @return 返回的就是有效节点的个数
      */
-    public  static int getLength(HeroNode head){
-        if (head.next==null){
+    public static int getLength(HeroNode head) {
+        if (head.next == null) {
             return 0;
         }
         int length = 0;
         // 定义一个赋值遍历,没有统计头节点
         HeroNode cur = head.next;
-        while (cur!=null){
+        while (cur != null) {
             length++;
             cur = cur.next;
         }
         return length;
     }
+
     //查找单链表中的倒数第k个结点 【新浪面试题】
     // 1.编写一个方法，接收head,同时接收一个index
     // 2. index 表示倒数第index个节点
     // 3. 先遍历链表，得到链表的长度
     // 4. 得到size后，我们从链表的第一个开始遍历（size-index）个
-    public static HeroNode findLastIndexNode(HeroNode head,int index){
+    public static HeroNode findLastIndexNode(HeroNode head, int index) {
         // 如果链表为空，返回null
-        if (head.next==null){
+        if (head.next == null) {
             return null;
         }
         // 第一次遍历，得到链表的长度
         int size = getLength(head);
         // 第二次遍历size-index位置
         // 校验index
-        if (index<=0||index>size){
+        if (index <= 0 || index > size) {
             return null;
         }
         // 定义赋值变量，使用for循环
         HeroNode cur = head.next;
-        for (int i = 0; i < size-index; i++) {
+        for (int i = 0; i < size - index; i++) {
             cur = cur.next;
         }
         return cur;
+    }
+
+    // 单链表的反转【腾讯面试题，有点难度】
+    public static void reverseLinkedList(HeroNode head) {
+        // 如果当前列表为空或者只有一个节点，无需反转
+        if (head.next == null || head.next.next == null) {
+            return;
+        }
+
+        // 定义辅助变量，帮助我们变量原来的链表
+        HeroNode cur = head.next;
+        // 指向当前节点【cur】的下一个节点
+        HeroNode next = null;
+        HeroNode reverseHead = new HeroNode(0, "", "");
+        // 遍历原来的列表
+        while (cur != null) {
+            // 暂时保存当前节点的下一个节点
+            next = cur.next;
+            // 将cur的下一个节点指向新链表的最前端
+
+            cur.next = reverseHead.next;
+            reverseHead.next =cur;
+            // cur后移
+            cur = next;
+        }
+        head.next = reverseHead.next;
     }
 
 }
@@ -112,6 +145,7 @@ class SingleLinkedList {
         }
         temp.next = heroNode;
     }
+
     //第二种方式在添加英雄时，根据排名将英雄插入到指定位置
     public void addByOrder(HeroNode heroNode) {
         HeroNode temp = head;
@@ -141,6 +175,7 @@ class SingleLinkedList {
         }
 
     }
+
     // 显示链表
     public void list() {
         if (head.next == null) {
@@ -154,6 +189,7 @@ class SingleLinkedList {
         }
         System.out.println(temp);
     }
+
     // 修改节点的信息，根据编号来修改
     public void update(HeroNode newHeroNode) {
         // 判断链表是否为空
@@ -186,28 +222,29 @@ class SingleLinkedList {
             System.out.printf("没有找到编号为%d的节点，不能修改\n", newHeroNode.no);
         }
     }
+
     // 删除节点，根据编号来删除
-    public void delete(int no){
+    public void delete(int no) {
         HeroNode temp = head;
         // 找到需要删除的节点
-        boolean flag= false;
-        while (true){
+        boolean flag = false;
+        while (true) {
             // 已经到链表的最后
-            if (temp.next==null){
+            if (temp.next == null) {
                 break;
             }
             // 找到了待删除节点的前一个节点temp
-            if (temp.next.no==no){
+            if (temp.next.no == no) {
                 flag = true;
                 break;
             }
             temp = temp.next;
         }
 
-        if (flag){
+        if (flag) {
             temp.next = temp.next.next;
-        }else {
-            System.out.printf("要删除的节点%d不存在\n",no);
+        } else {
+            System.out.printf("要删除的节点%d不存在\n", no);
         }
 
     }
@@ -235,7 +272,8 @@ class HeroNode {
         return "HeroNode{" +
                 "no=" + no +
                 ", name='" + name + '\'' +
-                ", nickName='" + nickName +
+                ", nickName='" + nickName + '\'' +
+                ", next=" + next +
                 '}';
     }
 }
