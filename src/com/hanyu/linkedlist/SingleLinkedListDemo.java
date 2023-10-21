@@ -1,5 +1,7 @@
 package com.hanyu.linkedlist;
 
+import java.util.Stack;
+
 /**
  * @author 李小帅
  */
@@ -43,12 +45,16 @@ public class SingleLinkedListDemo {
         System.out.println("res="+lastIndexNode);
 
 */
-        System.out.println("原来链表的情况");
-        linkedList.list();
+//        System.out.println("原来链表的情况");
+//        linkedList.list();
+//
+//        System.out.println("链表反转");
+//        reverseLinkedList(linkedList.getHead());
+//        linkedList.list();
 
-        System.out.println("链表反转");
-        reverseLinkedList(linkedList.getHead());
-        linkedList.list();
+        // 从尾到头打印单链表 【百度，要求方式1：反向遍历 。 方式2：Stack栈】
+        reversePrint(linkedList.getHead());
+
     }
 
     // 方法：获取到单链表的节点的个数（头节点不统计）
@@ -98,29 +104,40 @@ public class SingleLinkedListDemo {
 
     // 单链表的反转【腾讯面试题，有点难度】
     public static void reverseLinkedList(HeroNode head) {
-        // 如果当前列表为空或者只有一个节点，无需反转
-        if (head.next == null || head.next.next == null) {
+     if (head.next==null||head.next.next==null){
+         return;
+     }
+     HeroNode begin = head.next;
+     HeroNode end = null;
+     HeroNode reverseHead = new HeroNode(0,"","");
+     while (begin!=null){
+         end = begin.next;
+         begin.next = reverseHead.next;
+         reverseHead.next = begin;
+         begin = end;
+     }
+     head.next = reverseHead.next;
+
+    }
+
+    // 从尾到头打印单链表 【百度，要求方式1：反向遍历 。 方式2：Stack栈】
+    public static void reversePrint(HeroNode head){
+        if (head.next==null){
             return;
         }
-
-        // 定义辅助变量，帮助我们变量原来的链表
+        // 创建一个栈，将各个节点压入栈中
+        Stack<HeroNode> stack = new Stack<>();
         HeroNode cur = head.next;
-        // 指向当前节点【cur】的下一个节点
-        HeroNode next = null;
-        HeroNode reverseHead = new HeroNode(0, "", "");
-        // 遍历原来的列表
-        while (cur != null) {
-            // 暂时保存当前节点的下一个节点
-            next = cur.next;
-            // 将cur的下一个节点指向新链表的最前端
-
-            cur.next = reverseHead.next;
-            reverseHead.next =cur;
-            // cur后移
-            cur = next;
+        // 将链表的所有节点压入栈中
+        while (cur!=null){
+            stack.push(cur);
+            cur = cur.next;
         }
-        head.next = reverseHead.next;
+        while (stack.size()>0){
+            System.out.println(stack.pop());
+        }
     }
+
 
 }
 
