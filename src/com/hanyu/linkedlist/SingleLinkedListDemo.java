@@ -1,5 +1,8 @@
 package com.hanyu.linkedlist;
 
+/**
+ * @author 李小帅
+ */
 public class SingleLinkedListDemo {
     public static void main(String[] args) {
 
@@ -16,15 +19,23 @@ public class SingleLinkedListDemo {
         linkedList.addByOrder(hero3);
         linkedList.addByOrder(hero4);
 
+        // 修改之前显示节点
         linkedList.list();
-        linkedList.addByOrder(hero4);
+
+        HeroNode newHeroNode = new HeroNode(3, "小卢", "玉麒麟~~");
+        linkedList.update(newHeroNode);
+
+        System.out.println("");
+
+        // 修改之后显示节点
+        linkedList.list();
 
     }
 }
 
 class SingleLinkedList {
     // 初始化头节点,头节点不要动,不存放具体的数据
-    private HeroNode head = new HeroNode(0, "", "");
+    private final HeroNode head = new HeroNode(0, "", "");
 
     // 第一种方法在添加英雄时，直接添加到链表的尾部
     public void add(HeroNode heroNode) {
@@ -52,7 +63,7 @@ class SingleLinkedList {
             }
             // 在temp的后面添加
             if (temp.next.no > heroNode.no) {
-
+                break;
             } else if (temp.next.no == heroNode.no) {
                 flag = true;
                 break;
@@ -84,6 +95,40 @@ class SingleLinkedList {
         }
         System.out.println(temp);
     }
+
+    // 修改节点的信息，根据编号来修改
+    public void update(HeroNode newHeroNode) {
+        // 判断链表是否为空
+        if (head.next == null) {
+            System.out.println("链表为空");
+            return;
+        }
+        // 找到需要修改的节点
+        HeroNode temp = head.next;
+        // 表示是否找到该节点
+        boolean flag = false;
+        while (true) {
+            // 表示链表已经遍历结束
+            if (temp == null) {
+                break;
+            }
+            if (temp.no == newHeroNode.no) {
+                // 找到了
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+
+        if (flag) {
+            // 找到了
+            temp.name = newHeroNode.name;
+            temp.nickName = newHeroNode.nickName;
+        } else {
+            System.out.printf("没有找到编号为%d的节点，不能修改\n", newHeroNode.no);
+        }
+    }
+
 }
 
 
