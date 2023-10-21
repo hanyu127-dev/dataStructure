@@ -24,11 +24,19 @@ public class SingleLinkedListDemo {
 
         HeroNode newHeroNode = new HeroNode(3, "小卢", "玉麒麟~~");
         linkedList.update(newHeroNode);
-
-        System.out.println("");
-
+        System.out.println("修改后的链表信息~~");
         // 修改之后显示节点
         linkedList.list();
+
+        // 删除节点
+        linkedList.delete(1);
+        linkedList.delete(2);
+        linkedList.delete(3);
+        linkedList.delete(4);
+        System.out.println("删除后的链表信息~~");
+        // 删除之后显示节点
+        linkedList.list();
+
 
     }
 }
@@ -36,7 +44,6 @@ public class SingleLinkedListDemo {
 class SingleLinkedList {
     // 初始化头节点,头节点不要动,不存放具体的数据
     private final HeroNode head = new HeroNode(0, "", "");
-
     // 第一种方法在添加英雄时，直接添加到链表的尾部
     public void add(HeroNode heroNode) {
         if (head.next == null) {
@@ -50,7 +57,6 @@ class SingleLinkedList {
         }
         temp.next = heroNode;
     }
-
     //第二种方式在添加英雄时，根据排名将英雄插入到指定位置
     public void addByOrder(HeroNode heroNode) {
         HeroNode temp = head;
@@ -80,8 +86,6 @@ class SingleLinkedList {
         }
 
     }
-
-
     // 显示链表
     public void list() {
         if (head.next == null) {
@@ -95,7 +99,6 @@ class SingleLinkedList {
         }
         System.out.println(temp);
     }
-
     // 修改节点的信息，根据编号来修改
     public void update(HeroNode newHeroNode) {
         // 判断链表是否为空
@@ -127,6 +130,31 @@ class SingleLinkedList {
         } else {
             System.out.printf("没有找到编号为%d的节点，不能修改\n", newHeroNode.no);
         }
+    }
+    // 删除节点，根据编号来删除
+    public void delete(int no){
+        HeroNode temp = head;
+        // 找到需要删除的节点
+        boolean flag= false;
+        while (true){
+            // 已经到链表的最后
+            if (temp.next==null){
+                break;
+            }
+            // 找到了待删除节点的前一个节点temp
+            if (temp.next.no==no){
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+
+        if (flag){
+            temp.next = temp.next.next;
+        }else {
+            System.out.printf("要删除的节点%d不存在\n",no);
+        }
+
     }
 
 }
