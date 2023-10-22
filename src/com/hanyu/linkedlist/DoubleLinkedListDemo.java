@@ -7,10 +7,9 @@ public class DoubleLinkedListDemo {
         HeroNode2 hero2 = new HeroNode2(5, "卢俊义", "玉麒麟");
         HeroNode2 hero3 = new HeroNode2(3, "吴用", "智多星");
         HeroNode2 hero4 = new HeroNode2(9, "林冲", "豹子头");
-        linkedList.addByOrder(hero4);
-        linkedList.addByOrder(hero3);
-        linkedList.addByOrder(hero2);
         linkedList.addByOrder(hero1);
+        linkedList.addByOrder(hero2);
+        linkedList.addByOrder(hero3);
 
         linkedList.list();
 
@@ -182,10 +181,11 @@ class HeroNode2 {
 
     @Override
     public String toString() {
-        return "HeroNode{" +
+        return "HeroNode2{" +
                 "no=" + no +
                 ", name='" + name + '\'' +
                 ", nickName='" + nickName + '\'' +
+                ", pre=" + pre +
                 '}';
     }
 }
