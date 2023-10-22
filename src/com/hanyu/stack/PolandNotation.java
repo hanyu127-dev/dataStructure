@@ -26,7 +26,8 @@ public class PolandNotation {
 //        // 2.将ArrayList 传递给一个方法，遍历ArrayList 配合栈，完成计算
 //        List<String> rpnList = getListString(suffixExpresssion);
 //        System.out.println(rpnList);
-//        System.out.println(calculate(rpnList));
+        System.out.println("计算结果为：");
+        System.out.println(calculate(infixToSuffix));
 
     }
 
@@ -55,13 +56,13 @@ public class PolandNotation {
                 int num2 = Integer.parseInt(stack.pop());
                 int num1 = Integer.parseInt(stack.pop());
                 int res = 0;
-                if (item.equals("+")) {
+                if ("+".equals(item)) {
                     res = num1 + num2;
-                } else if (item.equals("-")) {
+                } else if ("-".equals(item)) {
                     res = num1 - num2;
-                } else if (item.equals("x")) {
+                } else if ("*".equals(item)) {
                     res = num1 * num2;
-                } else if (item.equals("/")) {
+                } else if ("/".equals(item)) {
                     res = num1 / num2;
                 } else {
                     throw new RuntimeException("运算符有误");
