@@ -7,26 +7,29 @@ public class LinkedListStackDemo {
         stack.push(2);
         stack.push(3);
         System.out.println(stack.getTop());
+        stack.pop();
+        stack.pop();
+        stack.pop();
+        System.out.println(stack.getTop());
 
-        System.out.println("出栈");
-        stack.pop();
-        stack.pop();
-        stack.pop();
-        stack.pop();
+
     }
 }
 
 
 class LinkedListStack{
-    private Node top = new Node(0);
+    private Node top ;
 
     private Node cur;
     public void push(int value){
-        Node temp = top;
+        if (top==null){
+            top = new Node(value);
+            return;
+        }
+        // 定义一个临时指针temp
         cur = new Node(value);
-        cur.next = temp.next;
-        temp.next = cur;
-        top.next = temp.next;
+        cur.next = top;
+        top = cur;
     }
 
     public int pop(){
@@ -34,13 +37,13 @@ class LinkedListStack{
             throw new RuntimeException("栈空，无数据");
         }
 
-        Node temp = top.next;
-        top.next = top.next.next;
+        Node temp = top;
+        top = top.next;
         return temp.getValue();
     }
 
     private boolean isEmpty(){
-        return top.next==null;
+        return top==null;
     }
 
     public Node getTop() {
