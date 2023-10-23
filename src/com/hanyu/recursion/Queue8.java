@@ -14,10 +14,12 @@ public class Queue8 {
     int[] array = new int[max];
 
     static int count = 0;
+    static int judgeCount=0;
     public static void main(String[] args) {
         Queue8 queue8 = new Queue8();
         queue8.check(0);
-        System.out.printf("一共有%d解法",count);
+        System.out.printf("一共有%d解法\n",count);
+        System.out.printf("一共有%d解法冲突",judgeCount);
     }
     // 编写一个方法，放置第n+1个皇后
     public void check(int n){
@@ -36,6 +38,7 @@ public class Queue8 {
                 // 接着放第n+1个皇后
                 check(n+1);
             }
+            judgeCount++;
             // 如果冲突，就会把第n个皇后放到n+1列
         }
     }
