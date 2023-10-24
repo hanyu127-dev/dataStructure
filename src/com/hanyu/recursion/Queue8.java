@@ -12,7 +12,6 @@ public class Queue8 {
     int max = 8;
     // 定义数组array,保存皇后存放的位置的结果
     int[] array = new int[max];
-
     static int count = 0;
     static int judgeCount=0;
     public static void main(String[] args) {
