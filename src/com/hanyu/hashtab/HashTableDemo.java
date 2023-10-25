@@ -87,7 +87,6 @@ class EmpLinkedList {
         cur.next = emp;
     }
 
-
     public void list(int i) {
         if (head == null) {
             System.out.println("链表" + (i + 1) + "为空");
