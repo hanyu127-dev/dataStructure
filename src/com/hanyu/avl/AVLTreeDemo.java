@@ -1,37 +1,33 @@
-package com.hanyu.binarysorttree;
+package com.hanyu.avl;
 
-public class BinarySortTreeDemo {
+public class AVLTreeDemo {
     public static void main(String[] args) {
-        BinarySortTree binarySortTree = new BinarySortTree();
-        int[] arr = {16, 24, 12, 32, 14, 26, 34, 10, 8, 28, 38, 20};
-
+        int[] arr = {10, 11, 7, 6, 8, 9};
+        AVLTree avlTree = new AVLTree();
         for (int i = 0; i < arr.length; i++) {
-            binarySortTree.add(new Node(arr[i]));
+            avlTree.add(new Node(arr[i]));
         }
 
-        // 中序遍历二叉排序树(1 3 5 7 9 10 12)
-        binarySortTree.infixOrder();
-//        binarySortTree.delNode(2);
-//        binarySortTree.delNode(5);
-//        binarySortTree.delNode(9);
-//        binarySortTree.delNode(12);
-//        binarySortTree.delNode(7);
-//        binarySortTree.delNode(3);
-//        binarySortTree.delNode(10);
-//        binarySortTree.delNode(1);
-//        System.out.println(binarySortTree.getRoot());
-//        System.out.println("删除节点后");
-//        binarySortTree.infixOrder();
+        avlTree.infixOrder();
+        System.out.println("===========根节点");
+        Node root = avlTree.getRoot();
+        System.out.println(root);
 
+        System.out.println("树的高度");
+        System.out.println(root.height());
+
+        System.out.println("根节点的左子树的高度");
+        System.out.println(root.leftHeight());
+        System.out.println("根节点的右子树的高度");
+        System.out.println(root.rightHeight());
 
     }
 }
 
-//创建二叉排序树
-class BinarySortTree {
+class AVLTree {
     private Node root;
 
-    public Node getRoot(){
+    public Node getRoot() {
         return this.root;
     }
 
@@ -51,11 +47,12 @@ class BinarySortTree {
             System.out.println("二叉排序树为空，不能遍历");
         }
     }
+
     //
-    public int delRightMin(Node node){
+    public int delRightMin(Node node) {
         Node temp = node;
         // 循环查找左子节点
-        while (temp.left!=null){
+        while (temp.left != null) {
             temp = temp.left;
         }
         // 这时temp就指向了最小节点
@@ -127,19 +124,19 @@ class BinarySortTree {
                     // 左子树不为空
                     if (targetNode.left != null) {
 
-                        if (parentNode.left==targetNode){
+                        if (parentNode.left == targetNode) {
                             // 当前节点是父节点的左子节点
                             parentNode.left = targetNode.left;
-                        }else {
+                        } else {
                             // 当前节点是父节点的右子节点
                             parentNode.right = targetNode.left;
                         }
-                    }else {
+                    } else {
                         // 右子节点不为空
-                        if (parentNode.left==targetNode){
+                        if (parentNode.left == targetNode) {
                             // 当前节点是父节点的左子节点
                             parentNode.left = targetNode.right;
-                        }else {
+                        } else {
                             // 当前节点是父节点的右子节点
                             parentNode.right = targetNode.right;
                         }
@@ -152,7 +149,6 @@ class BinarySortTree {
     }
 }
 
-// 创建Node节点
 class Node {
     int value;
     Node left;
@@ -160,6 +156,27 @@ class Node {
 
     public Node(int value) {
         this.value = value;
+    }
+
+    // 返回左子树的高度
+    public int leftHeight() {
+        if (left == null) {
+            return 0;
+        }
+        return left.height();
+    }
+
+    // 返回右子树的高度
+    public int rightHeight() {
+        if (right == null) {
+            return 0;
+        }
+        return right.height();
+    }
+
+    // 返回以该节点为根节点的树的高度
+    public int height() {
+        return Math.max(left == null ? 0 : left.height(), right == null ? 0 : right.height()) + 1;
     }
 
     // 添加节点的方法
@@ -182,6 +199,66 @@ class Node {
                 this.right.add(node);
             }
         }
+
+        // 判断是否需要左旋转
+        if (this.rightHeight() - this.leftHeight() > 1) {
+            if (right != null && right.rightHeight() < right.leftHeight()) {
+                right.rightRotate();
+                this.leftHeight();
+            } else {
+                leftRotate();
+            }
+        }
+
+        //判断是否需要右旋转
+        if (this.leftHeight() - this.rightHeight() > 1) {
+            if (left != null && left.leftHeight() < left.rightHeight()) {
+                left.leftRotate();
+                this.rightRotate();
+            } else {
+                rightRotate();
+            }
+
+        }
+
+    }
+
+    private void rightRotate() {
+        // 1.新建一个节点，节点的值是当前节点的值
+        Node temp = new Node(this.value);
+        // 1. 新节点的右节点是当前节点的右节点
+        temp.right = this.right;
+        // 2.新节点的右节点是当前节点的右节点的左节点
+        temp.left = this.left.right;
+        // 3.当前节点的值为右节点的值
+        this.value = this.left.value;
+        // 4.当前节点的右节点是当前节点的右节点的右节点
+        this.left = this.left.left;
+        // 5.当前节点的左节点是新节点
+        this.right = temp;
+    }
+
+    private void leftRotate() {
+        // 1.新建一个节点，节点的值是当前节点的值
+        Node temp = new Node(this.value);
+        // 1. 新节点的左节点是当前节点的左节点
+        temp.left = this.left;
+        // 2.新节点的右节点是当前节点的右节点的左节点
+        temp.right = this.right.left;
+        // 3.当前节点的值为右节点的值
+        this.value = this.right.value;
+        // 4.当前节点的右节点是当前节点的右节点的右节点
+        this.right = this.right.right;
+        // 5.当前节点的左节点是新节点
+        this.left = temp;
+
+//        Node newLeft = new Node(value);
+//        newLeft.right=right;
+//        newLeft.left=left.right;
+//        value=left.value;
+//        left=left.left;
+//        right=newLeft;
+
     }
     // 查找要删除节点的父节点
 
@@ -248,4 +325,3 @@ class Node {
                 '}';
     }
 }
-
