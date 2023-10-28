@@ -95,7 +95,7 @@ public class Graph {
 
     // 得到第一个邻接节点的下标W
     public int getFirstNeighbor(int index) {
-        for (int j = index; j < vertexList.size(); j++) {
+        for (int j = 0; j < vertexList.size(); j++) {
             if (edges[index][j] > 0) {
                 return j;
             }
